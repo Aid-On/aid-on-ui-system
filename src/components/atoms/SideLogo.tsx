@@ -5,7 +5,7 @@ type SideLogoProps = Omit<ImageProps, 'src' | 'alt'>;
 
 export const SideLogo: React.FC<SideLogoProps> = (props) => {
   const basePath = process.env.AIDON_STORYBOOK === 'true' 
-    ? process.env.STORYBOOK_BASE_PATH || ''
+    ? process.env.AIDON_STORYBOOK_BASE_PATH || ''
     : '';
 
   const logoPath = `${basePath}/images/side-logo-aid-on.png`;
