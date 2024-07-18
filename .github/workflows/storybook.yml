@@ -16,7 +16,8 @@ jobs:
           npm ci
           npm run build-storybook
         env:
-          STORYBOOK_BASE_PATH: /aid-on-ui-system
+          AIDON_STORYBOOK: true
+          AIDON_STORYBOOK_BASE_PATH: /aid-on-ui-system
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

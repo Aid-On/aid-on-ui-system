@@ -21,7 +21,4 @@ const preview: Preview = {
   ],
 };
 
-console.log('Storybook environment:', process.env.NODE_ENV);
-console.log('STORYBOOK_BASE_PATH:', process.env.STORYBOOK_BASE_PATH);
-
 export default preview;
