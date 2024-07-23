@@ -15,7 +15,7 @@ export const Tagline: React.FC<TaglineProps> = ({
       borderRadius="8px"
       padding="8px 0 12px"
       background="linear-gradient(90deg, #ff5166 0%, #9e0798 100%)"
-      width="372px"
+      width={["90%", "90%", "372px"]}
       textAlign="center"
       {...props}
     >

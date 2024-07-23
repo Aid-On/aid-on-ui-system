@@ -9,8 +9,8 @@ export const SideLogo: React.FC<SideLogoProps> = (props) => {
     <Image
       src={resolvePublicPath("/images/side-logo-aid-on.png")}
       alt="Aid-On Side Logo"
-      w="137px"
-      h="44px"
+      objectFit="contain"
+      fontSize="70px"
       onError={(e) => {
         console.error('Failed to load logo', e);
       }}
