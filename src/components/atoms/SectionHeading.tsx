@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box, Text, TextProps } from '@chakra-ui/react';
+import React from "react";
+import { Box, Text, TextProps } from "@chakra-ui/react";
 
-interface SectionHeadingProps extends Omit<TextProps, 'bgGradient' | 'bgClip'> {
+interface SectionHeadingProps extends Omit<TextProps, "bgGradient" | "bgClip"> {
   children: React.ReactNode;
   fromColor?: string;
   toColor?: string;
@@ -9,8 +9,8 @@ interface SectionHeadingProps extends Omit<TextProps, 'bgGradient' | 'bgClip'> {
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
   children,
-  fromColor = "#FD2A44",
-  toColor = "#FE7340",
+  fromColor = "#ff5166",
+  toColor = "#9e0798",
   ...props
 }) => {
   return (
