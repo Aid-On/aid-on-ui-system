@@ -1,11 +1,30 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ReOn202408WebUploadTemplate } from "../src/components/templates/ReOn202408WebUploadTemplate";
+import { action } from "@storybook/addon-actions";
 
 const meta = {
   title: "Templates/ReOn202408WebUploadTemplate",
   component: ReOn202408WebUploadTemplate,
   parameters: {
     layout: "fullscreen",
+  },
+  args: {
+    isDragging: false,
+    file: null,
+    isUploading: false,
+    isError: false,
+    isCompleted: false,
+    accountName: "テストユーザー",
+    onDragOver: action("onDragOver"),
+    onDragLeave: action("onDragLeave"),
+    onDrop: action("onDrop"),
+    onFileSelect: action("onFileSelect"),
+    onUpload: action("onUpload"),
+    onErrorClose: action("onErrorClose"),
+    onCompletedClose: action("onCompletedClose"),
+    onSidebarToggle: action("onSidebarToggle"),
+    onStartQuestion: action("onStartQuestion"),
+    onViewUploadHistory: action("onViewUploadHistory"),
   },
 } satisfies Meta<typeof ReOn202408WebUploadTemplate>;
 
@@ -42,5 +61,35 @@ export const Smartphone: Story = {
     chromatic: {
       viewports: [450],
     },
+  },
+};
+
+export const WithFile: Story = {
+  args: {
+    file: new File(["test content"], "test.txt", { type: "text/plain" }),
+  },
+};
+
+export const Dragging: Story = {
+  args: {
+    isDragging: true,
+  },
+};
+
+export const Uploading: Story = {
+  args: {
+    isUploading: true,
+  },
+};
+
+export const Error: Story = {
+  args: {
+    isError: true,
+  },
+};
+
+export const Completed: Story = {
+  args: {
+    isCompleted: true,
   },
 };

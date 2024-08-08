@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import {
   Box,
   Flex,
@@ -9,60 +9,50 @@ import {
   Link,
   Input,
 } from "@chakra-ui/react";
-import { ReOn202408WebUploadOverlay } from "../organisms/UploadingOverlay";
+import { ReOn202408WebUploadOverlay } from "../organisms/ReOn202408WebUploadingOverlay";
 import { resolvePublicPath } from "../../resolvePublicPath";
+import { ReOn202408WebUploadErrorOverlay } from "../organisms/ReOn202408WebUploadErrorOverlay";
+import { ReOn202408WebUploadCompletedOverlay } from "../organisms/ReOn202408WebUploadCompletedOverlay";
 
-export const ReOn202408WebUploadTemplate: React.FC = () => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+interface ReOn202408WebUploadTemplateProps {
+  isDragging: boolean;
+  file: File | null;
+  isUploading: boolean;
+  isError: boolean;
+  isCompleted: boolean;
+  accountName: string;
+  onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+  onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
+  onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+  onFileSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onUpload: () => void;
+  onErrorClose: () => void;
+  onCompletedClose: () => void;
+  onSidebarToggle: () => void;
+  onStartQuestion: () => void;
+  onViewUploadHistory: () => void;
+}
 
-  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(true);
-  }, []);
-
-  const onDragLeave = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-  }, []);
-
-  const onDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-    const droppedFile = event.dataTransfer.files[0];
-    if (droppedFile && validateFile(droppedFile)) {
-      setFile(droppedFile);
-    }
-  }, []);
-
-  const onFileSelect = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const selectedFile = event.target.files?.[0];
-      if (selectedFile && validateFile(selectedFile)) {
-        setFile(selectedFile);
-      }
-    },
-    []
-  );
-
-  const validateFile = (file: File): boolean => {
-    const validTypes = [
-      ".txt",
-      "text/csv",
-      "application/json",
-      "application/pdf",
-    ];
-    const maxSize = 100 * 1024 * 1024; // 100MB
-    if (!validTypes.includes(file.type) && !file.name.endsWith(".txt")) {
-      alert("サポートされていないファイル形式です。");
-      return false;
-    }
-    if (file.size > maxSize) {
-      alert("ファイルサイズが100MBを超えています。");
-      return false;
-    }
-    return true;
-  };
+export const ReOn202408WebUploadTemplate: React.FC<
+  ReOn202408WebUploadTemplateProps
+> = ({
+  isDragging,
+  file,
+  isUploading,
+  isError,
+  isCompleted,
+  accountName,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  onFileSelect,
+  onUpload,
+  onErrorClose,
+  onCompletedClose,
+  onSidebarToggle,
+  onStartQuestion,
+  onViewUploadHistory,
+}) => {
   return (
     <Flex width="100%" height="100vh" margin="0" padding="0">
       {/* Sidebar */}
@@ -74,7 +64,12 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
         flexDirection="column"
       >
         {/* Sidebar Header */}
-        <Flex width="100%" height="40px" alignItems="center">
+        <Flex
+          width="100%"
+          height="40px"
+          alignItems="center"
+          onClick={onSidebarToggle}
+        >
           <Image
             src={resolvePublicPath("./images/Sidebar-icon.png")}
             width="28px"
@@ -107,6 +102,7 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
             borderRadius="42.222px"
             bg="#e5e5e5"
             _hover={{ bg: "#d5d5d5" }}
+            onClick={onStartQuestion}
           >
             <Text fontSize="16px" fontWeight="600">
               質問を開始する
@@ -164,7 +160,7 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
           mb="50px"
         >
           <Text color="#0f0f0f" fontSize="16px" fontWeight="300" mr="20px">
-            アカウント名
+            {accountName}
           </Text>
         </Flex>
 
@@ -238,14 +234,8 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
           fontSize="16px"
           fontWeight="600"
           mt="200px"
-          onClick={() => {
-            if (file) {
-              console.log("ファイルをアップロード:", file);
-              // ここに実際のアップロード処理を追加
-            } else {
-              alert("ファイルを選択してください。");
-            }
-          }}
+          onClick={onUpload}
+          isDisabled={!file}
         >
           追加する
         </Button>
@@ -260,11 +250,20 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
           fontWeight="400"
           textDecoration="underline"
           mb="30px"
+          onClick={onViewUploadHistory}
         >
           データアップロード履歴
         </Link>
       </VStack>
-      <ReOn202408WebUploadOverlay isOpen={true} />
+      <ReOn202408WebUploadOverlay isOpen={isUploading} />
+      <ReOn202408WebUploadCompletedOverlay
+        isOpen={isCompleted}
+        onClose={onCompletedClose}
+      />
+      <ReOn202408WebUploadErrorOverlay
+        isOpen={isError}
+        onClose={onErrorClose}
+      />
     </Flex>
   );
 };

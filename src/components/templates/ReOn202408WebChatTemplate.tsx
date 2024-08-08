@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Box,
   Flex,
@@ -9,7 +9,51 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-export const ReOn202408WebChatTemplate: React.FC = () => {
+interface ChatMessage {
+  id: string;
+  content: string;
+  isUser: boolean;
+}
+
+interface ChatHistory {
+  id: string;
+  title: string;
+}
+
+interface ReOn202408WebChatTemplateProps {
+  accountName: string;
+  chatHistory: ChatHistory[];
+  currentChatId: string | null;
+  messages: ChatMessage[];
+  question: string;
+  onSidebarToggle: () => void;
+  onStartNewChat: () => void;
+  onSelectChat: (chatId: string) => void;
+  onAddData: () => void;
+  onQuestionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onQuestionSubmit: () => void;
+}
+
+export const ReOn202408WebChatTemplate: React.FC<
+  ReOn202408WebChatTemplateProps
+> = ({
+  accountName,
+  chatHistory,
+  currentChatId,
+  messages,
+  question,
+  onSidebarToggle,
+  onStartNewChat,
+  onSelectChat,
+  onAddData,
+  onQuestionChange,
+  onQuestionSubmit,
+}) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
   return (
     <Flex width="100%" height="100vh" margin="0" padding="0">
       {/* Sidebar */}
@@ -21,7 +65,12 @@ export const ReOn202408WebChatTemplate: React.FC = () => {
         flexDirection="column"
       >
         {/* Sidebar Header */}
-        <Flex width="100%" height="40px" alignItems="center">
+        <Flex
+          width="100%"
+          height="40px"
+          alignItems="center"
+          onClick={onSidebarToggle}
+        >
           <Image
             src="./images/Sidebar-icon.png"
             width="28px"
@@ -41,7 +90,7 @@ export const ReOn202408WebChatTemplate: React.FC = () => {
           </Text>
         </Flex>
 
-        {/* Start Question Button */}
+        {/* Start New Chat Button */}
         <Flex
           width="100%"
           mt="49px"
@@ -54,26 +103,36 @@ export const ReOn202408WebChatTemplate: React.FC = () => {
             borderRadius="42.222px"
             bg="#e5e5e5"
             _hover={{ bg: "#d5d5d5" }}
+            onClick={onStartNewChat}
           >
             <Text fontSize="16px" fontWeight="600">
-              質問を開始する
+              新しいチャットを開始
             </Text>
           </Button>
         </Flex>
 
-        {/* No Past Questions Text */}
-        <Flex
-          color="#757575"
-          width="210px"
-          height="100%"
-          fontSize="15px"
-          fontWeight="300"
-          ml="20px"
+        {/* Chat History */}
+        <VStack
+          spacing={2}
+          align="stretch"
+          overflow="auto"
           flexGrow={1}
-          alignItems="center"
+          mt={4}
+          px={2}
         >
-          まだ過去の質問がありません
-        </Flex>
+          {chatHistory.map((chat) => (
+            <Button
+              key={chat.id}
+              onClick={() => onSelectChat(chat.id)}
+              variant="ghost"
+              justifyContent="flex-start"
+              isActive={chat.id === currentChatId}
+              _active={{ bg: "#e5e5e5" }}
+            >
+              {chat.title}
+            </Button>
+          ))}
+        </VStack>
 
         {/* Add Data Button */}
         <Flex
@@ -82,6 +141,7 @@ export const ReOn202408WebChatTemplate: React.FC = () => {
           height="80px"
           justifyContent="center"
           alignItems="center"
+          onClick={onAddData}
         >
           <Text color="white" fontSize="16px" fontWeight="600" mr="12px">
             データを追加する
@@ -95,21 +155,59 @@ export const ReOn202408WebChatTemplate: React.FC = () => {
         {/* Account Name */}
         <Flex width="100%" height="24px" justifyContent="flex-end" mt="8px">
           <Text color="#0f0f0f" fontSize="16px" fontWeight="300" mr="20px">
-            アカウント名
+            {accountName}
           </Text>
         </Flex>
 
-        {/* No Questions Text */}
-        <Text
-          color="#757575"
-          fontSize="24px"
-          fontWeight="300"
+        {/* Chat Messages */}
+        <Box
           flexGrow={1}
-          display="flex"
-          alignItems="center"
+          width="100%"
+          px={4}
+          overflowY="auto"
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#c5c5c5",
+              borderRadius: "24px",
+            },
+          }}
         >
-          まだ何も質問されていません
-        </Text>
+          {messages.length === 0 ? (
+            <Flex height="100%" alignItems="center" justifyContent="center">
+              <Text
+                color="#757575"
+                fontSize="24px"
+                fontWeight="300"
+                textAlign="center"
+              >
+                まだ何も質問されていません
+              </Text>
+            </Flex>
+          ) : (
+            <VStack spacing={4} align="stretch">
+              {messages.map((message) => (
+                <Box
+                  key={message.id}
+                  bg={message.isUser ? "#e5e5e5" : "white"}
+                  p={3}
+                  borderRadius="md"
+                  alignSelf={message.isUser ? "flex-end" : "flex-start"}
+                  maxWidth="70%"
+                  ml={message.isUser ? "auto" : "0"}
+                >
+                  <Text>{message.content}</Text>
+                </Box>
+              ))}
+              <div ref={messagesEndRef} />
+            </VStack>
+          )}
+        </Box>
 
         {/* Input Area */}
         <Flex
@@ -129,8 +227,18 @@ export const ReOn202408WebChatTemplate: React.FC = () => {
             fontWeight="300"
             ml="30px"
             flexGrow={1}
+            value={question}
+            onChange={onQuestionChange}
           />
-          <Box bg="brown" width="30px" height="30px" mr="10px" ml="29px" />
+          <Box
+            bg="brown"
+            width="30px"
+            height="30px"
+            mr="10px"
+            ml="29px"
+            onClick={onQuestionSubmit}
+            cursor="pointer"
+          />
         </Flex>
       </VStack>
     </Flex>
