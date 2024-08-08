@@ -9,6 +9,8 @@ import {
   Link,
   Input,
 } from "@chakra-ui/react";
+import { ReOn202408WebUploadOverlay } from "../organisms/UploadingOverlay";
+import { resolvePublicPath } from "../../resolvePublicPath";
 
 export const ReOn202408WebUploadTemplate: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -74,7 +76,7 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
         {/* Sidebar Header */}
         <Flex width="100%" height="40px" alignItems="center">
           <Image
-            src="./images/Sidebar-icon.png"
+            src={resolvePublicPath("./images/Sidebar-icon.png")}
             width="28px"
             height="28px"
             ml="10px"
@@ -137,7 +139,11 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
           <Text color="white" fontSize="16px" fontWeight="600" mr="12px">
             データを追加する
           </Text>
-          <Image src="./images/upload-icon.png" width="32px" height="32px" />
+          <Image
+            src={resolvePublicPath("images/upload-icon.png")}
+            width="32px"
+            height="32px"
+          />
         </Flex>
       </Box>
 
@@ -180,7 +186,7 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
           border={isDragging ? "2px dashed #fd2a44" : "none"}
         >
           <Image
-            src="./images/upload-icon.png"
+            src={resolvePublicPath("images/upload-icon.png")}
             width="80px"
             height="80px"
             mb="20px"
@@ -258,6 +264,7 @@ export const ReOn202408WebUploadTemplate: React.FC = () => {
           データアップロード履歴
         </Link>
       </VStack>
+      <ReOn202408WebUploadOverlay isOpen={true} />
     </Flex>
   );
 };

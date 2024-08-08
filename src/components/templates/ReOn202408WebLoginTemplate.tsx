@@ -9,6 +9,7 @@ import {
   useColorModeValue,
   InputProps,
 } from "@chakra-ui/react";
+import { resolvePublicPath } from "../../resolvePublicPath";
 
 const ReOn202408WebLoginTemplate = () => {
   const bgColor = useColorModeValue("#ff516618", "#ff516630");
@@ -17,11 +18,13 @@ const ReOn202408WebLoginTemplate = () => {
 
   return (
     <Box
-      bgImage="url('./images/back.png')"
-      bgRepeat="no-repeat"
-      bgSize="100%"
       minHeight="100vh"
       bg={bgColor}
+      style={{
+        backgroundImage: `url('${resolvePublicPath("images/back.png")}')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <VStack spacing={8} align="center" py={16}>
         <Text
@@ -37,7 +40,7 @@ const ReOn202408WebLoginTemplate = () => {
 
         <VStack>
           <Image
-            src="./images/ReOn.png"
+            src={resolvePublicPath("images/ReOn.png")}
             alt="ReOn"
             w="208px"
             h="93px"
