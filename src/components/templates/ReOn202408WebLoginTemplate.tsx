@@ -8,6 +8,7 @@ import {
   Button,
   useColorModeValue,
   InputProps,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { resolvePublicPath } from "../../resolvePublicPath";
 
@@ -15,6 +16,13 @@ const ReOn202408WebLoginTemplate = () => {
   const bgColor = useColorModeValue("#ff516618", "#ff516630");
   const textColor = useColorModeValue("#0f0f0f", "#f0f0f0");
   const accentColor = "#fd2a44";
+
+  const fontSize = useBreakpointValue({ base: "16px", md: "18px" });
+  const logoWidth = useBreakpointValue({ base: "150px", md: "208px" });
+  const logoHeight = useBreakpointValue({ base: "67px", md: "93px" });
+  const formWidth = useBreakpointValue({ base: "90%", md: "435px" });
+  const buttonWidth = useBreakpointValue({ base: "90%", md: "324px" });
+  const buttonHeight = useBreakpointValue({ base: "60px", md: "82px" });
 
   return (
     <Box
@@ -26,12 +34,13 @@ const ReOn202408WebLoginTemplate = () => {
         backgroundPosition: "center",
       }}
     >
-      <VStack spacing={8} align="center" py={16}>
+      <VStack spacing={8} align="center" py={16} px={4}>
         <Text
           color={textColor}
-          fontSize="18px"
+          fontSize={fontSize}
           fontWeight="800"
           fontFamily="Hiragino Kaku Gothic StdN"
+          textAlign="center"
         >
           AI アシスタントによる
           <br />
@@ -42,8 +51,8 @@ const ReOn202408WebLoginTemplate = () => {
           <Image
             src={resolvePublicPath("images/ReOn.png")}
             alt="ReOn"
-            w="208px"
-            h="93px"
+            w={logoWidth}
+            h={logoHeight}
             objectFit="contain"
           />
           <Text color={accentColor} fontSize="22px" fontWeight="500" mt="-10px">
@@ -51,7 +60,7 @@ const ReOn202408WebLoginTemplate = () => {
           </Text>
         </VStack>
 
-        <VStack spacing={4} w="435px">
+        <VStack spacing={4} w={formWidth}>
           <FormInput label="ID" placeholder="IDを入力してください" />
           <FormInput
             label="Password"
@@ -67,11 +76,11 @@ const ReOn202408WebLoginTemplate = () => {
         <Button
           bg="#fe8e9b"
           color="white"
-          fontSize="28px"
+          fontSize={useBreakpointValue({ base: "24px", md: "28px" })}
           fontWeight="600"
           borderRadius="60px"
-          w="324px"
-          h="82px"
+          w={buttonWidth}
+          h={buttonHeight}
           _hover={{ bg: "#ff7a8a" }}
         >
           ログイン
@@ -87,15 +96,19 @@ interface FormInputProps extends Omit<InputProps, "label"> {
 
 const FormInput: React.FC<FormInputProps> = ({ label, ...props }) => (
   <VStack align="start" w="100%">
-    <Text color="#393636" fontSize="24px" fontWeight="600">
+    <Text
+      color="#393636"
+      fontSize={useBreakpointValue({ base: "20px", md: "24px" })}
+      fontWeight="600"
+    >
       {label}
     </Text>
     <Input
       bg="#f8f8f8"
       border="1px solid #393636"
       borderRadius="10px"
-      h="66px"
-      fontSize="20px"
+      h={useBreakpointValue({ base: "50px", md: "66px" })}
+      fontSize={useBreakpointValue({ base: "16px", md: "20px" })}
       _placeholder={{ color: "#393636", fontWeight: "300" }}
       {...props}
     />

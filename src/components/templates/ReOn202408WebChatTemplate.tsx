@@ -7,8 +7,10 @@ import {
   VStack,
   Image,
   useMediaQuery,
+  Button,
 } from "@chakra-ui/react";
 import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
+import { resolvePublicPath } from "../../resolvePublicPath";
 
 interface ChatMessage {
   id: string;
@@ -20,6 +22,44 @@ interface ChatHistory {
   id: string;
   title: string;
 }
+
+interface CustomSendButtonProps {
+  onQuestionSubmit: () => void;
+  isDisabled?: boolean;
+}
+
+export const CustomSendButton: React.FC<CustomSendButtonProps> = ({
+  onQuestionSubmit,
+  isDisabled = false,
+}) => {
+  return (
+    <Button
+      as="div"
+      onClick={onQuestionSubmit}
+      disabled={isDisabled}
+      bg="transparent"
+      _hover={{ bg: "rgba(0, 0, 0, 0.05)" }}
+      _active={{ bg: "rgba(0, 0, 0, 0.1)" }}
+      borderRadius="full"
+      p={0}
+      minWidth="52px"
+      minHeight="52px"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      cursor={isDisabled ? "not-allowed" : "pointer"}
+      opacity={isDisabled ? 0.5 : 1}
+      transition="all 0.2s"
+    >
+      <Image
+        src={resolvePublicPath("images/reon-send-button.png")}
+        alt="送信"
+        boxSize="40px"
+        objectFit="contain"
+      />
+    </Button>
+  );
+};
 
 interface ReOn202408WebChatTemplateProps {
   accountName: string;
@@ -64,7 +104,7 @@ export const ReOn202408WebChatTemplate: React.FC<
       onSelectChat={onSelectChat}
       onAddData={onAddData}
     >
-      <Flex flexDirection="column" height="100vh" overflow="hidden">
+      <Flex flexDirection="column" height="100vh" position="relative">
         {/* Account Name */}
         <Flex
           width="100%"
@@ -79,11 +119,13 @@ export const ReOn202408WebChatTemplate: React.FC<
           </Text>
         </Flex>
 
+        {/* Scrollable Chat Area */}
         <Box
           flexGrow={1}
           width="100%"
           overflowY="auto"
           px={4}
+          pb="100px" // Add padding to prevent overlap with input area
           css={{
             "&::-webkit-scrollbar": {
               width: "4px",
@@ -130,35 +172,44 @@ export const ReOn202408WebChatTemplate: React.FC<
 
         {/* Input Area */}
         <Flex
-          bg="#ffe6e6"
-          height="60px"
-          borderRadius="30px"
-          mx={isSmallScreen ? "16px" : "133px"}
-          mb="20px"
-          alignItems="center"
-          width={isSmallScreen ? "calc(100% - 32px)" : "calc(100% - 266px)"}
-          flexShrink={0}
+          position="absolute"
+          bottom={5}
+          left={0}
+          right={0}
+          justifyContent="center"
+          pointerEvents="none"
         >
-          <Input
-            variant="unstyled"
-            placeholder="ここに自由に質問できます"
-            color="#757575"
-            fontSize={isSmallScreen ? "16px" : "18px"}
-            fontWeight="300"
-            ml={isSmallScreen ? "20px" : "30px"}
-            flexGrow={1}
-            value={question}
-            onChange={onQuestionChange}
-          />
-          <Box
-            bg="brown"
-            width="30px"
-            height="30px"
-            mr="10px"
-            ml={isSmallScreen ? "10px" : "29px"}
-            onClick={onQuestionSubmit}
-            cursor="pointer"
-          />
+          <Flex
+            bg="#ffe6e6"
+            height="60px"
+            borderRadius="30px"
+            alignItems="center"
+            width={isSmallScreen ? "calc(100% - 32px)" : "calc(100% - 266px)"}
+            maxWidth="1000px"
+            pointerEvents="auto"
+          >
+            <Input
+              variant="unstyled"
+              placeholder="ここに自由に質問できます"
+              color="#757575"
+              fontSize={isSmallScreen ? "16px" : "18px"}
+              fontWeight="300"
+              ml={isSmallScreen ? "20px" : "30px"}
+              flexGrow={1}
+              value={question}
+              onChange={onQuestionChange}
+            />
+            <CustomSendButton onQuestionSubmit={onQuestionSubmit} />
+            {/* <Box
+              bg="brown"
+              width="30px"
+              height="30px"
+              mr="10px"
+              ml={isSmallScreen ? "10px" : "29px"}
+              onClick={onQuestionSubmit}
+              cursor="pointer"
+            /> */}
+          </Flex>
         </Flex>
       </Flex>
     </ReOn202408SidebarLayout>
