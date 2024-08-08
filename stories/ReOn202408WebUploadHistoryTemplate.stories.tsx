@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import ReOn202408WebLoginTemplate from "../src/components/templates/ReOn202408WebLoginTemplate";
+import { ReOn202408WebUploadHistoryTemplate } from "../src/components/templates/ReOn202408WebUploadHistoryTemplate";
 
 const meta = {
-  title: "Templates/ReOn202408WebLoginTemplate",
-  component: ReOn202408WebLoginTemplate,
+  title: "Templates/ReOn202408WebUploadHistoryTemplate",
+  component: ReOn202408WebUploadHistoryTemplate,
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof ReOn202408WebLoginTemplate>;
+} satisfies Meta<typeof ReOn202408WebUploadHistoryTemplate>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
