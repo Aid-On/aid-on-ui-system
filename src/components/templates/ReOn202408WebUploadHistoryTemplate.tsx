@@ -12,14 +12,21 @@ import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
 interface UploadHistoryItem {
   date: string;
   time: string;
-  account: string;
+  accountName: string;
   documentDate: string;
   documentTitle: string;
 }
 
 const UploadHistoryItem: React.FC<
   UploadHistoryItem & { isSmallScreen: boolean }
-> = ({ date, time, account, documentDate, documentTitle, isSmallScreen }) => (
+> = ({
+  date,
+  time,
+  accountName: account,
+  documentDate,
+  documentTitle,
+  isSmallScreen,
+}) => (
   <Box
     maxWidth={isSmallScreen ? "100%" : "806px"}
     height="auto"
@@ -67,7 +74,7 @@ export const ReOn202408WebUploadHistoryTemplate: React.FC<
     {
       date: "2024/12/23",
       time: "13:56",
-      account: "account name",
+      accountName: "account name",
       documentDate: "2024/07/30",
       documentTitle:
         "すごいドキュメント2 最新版（部長チェック済み）_2_2（改訂）",
@@ -99,7 +106,7 @@ export const ReOn202408WebUploadHistoryTemplate: React.FC<
             color="#0F0F0F"
             fontSize="16px"
             fontWeight="300"
-            ml={isSmallScreen ? "0" : "20px"}
+            ml={isSmallScreen ? "40px" : "20px"}
           >
             ←
           </Text>

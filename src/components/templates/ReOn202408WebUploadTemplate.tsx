@@ -97,7 +97,7 @@ export const ReOn202408WebUploadTemplate: React.FC<
           border={!isSmallScreen && isDragging ? "2px dashed #fd2a44" : "none"}
         >
           <Image
-            src={resolvePublicPath("images/upload-icon.png")}
+            src={resolvePublicPath("images/upload-cloud-icon.png")}
             width={isSmallScreen ? "60px" : "80px"}
             height={isSmallScreen ? "60px" : "80px"}
             mb="20px"
