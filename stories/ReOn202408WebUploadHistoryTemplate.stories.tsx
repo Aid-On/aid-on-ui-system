@@ -13,6 +13,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const PC: Story = {
+  args: {
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    accountName: "",
+  },
   parameters: {
     viewport: {
       defaultViewport: "desktop",
@@ -24,6 +32,14 @@ export const PC: Story = {
 };
 
 export const Tablet: Story = {
+  args: {
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    accountName: "",
+  },
   parameters: {
     viewport: {
       defaultViewport: "tablet",
@@ -35,6 +51,14 @@ export const Tablet: Story = {
 };
 
 export const Smartphone: Story = {
+  args: {
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    accountName: "",
+  },
   parameters: {
     viewport: {
       defaultViewport: "mobile1",

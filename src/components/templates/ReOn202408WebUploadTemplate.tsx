@@ -1,14 +1,15 @@
 import React from "react";
 import {
   Box,
-  Flex,
   Text,
   Button,
   VStack,
   Image,
   Link,
   Input,
+  useMediaQuery,
 } from "@chakra-ui/react";
+import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
 import { ReOn202408WebUploadOverlay } from "../organisms/ReOn202408WebUploadingOverlay";
 import { resolvePublicPath } from "../../resolvePublicPath";
 import { ReOn202408WebUploadErrorOverlay } from "../organisms/ReOn202408WebUploadErrorOverlay";
@@ -21,6 +22,8 @@ interface ReOn202408WebUploadTemplateProps {
   isError: boolean;
   isCompleted: boolean;
   accountName: string;
+  chatHistory: any[]; // 適切な型に変更してください
+  currentChatId: string | null;
   onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
   onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
   onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -28,8 +31,9 @@ interface ReOn202408WebUploadTemplateProps {
   onUpload: () => void;
   onErrorClose: () => void;
   onCompletedClose: () => void;
-  onSidebarToggle: () => void;
-  onStartQuestion: () => void;
+  onStartNewChat: () => void;
+  onSelectChat: (chatId: string) => void;
+  onAddData: () => void;
   onViewUploadHistory: () => void;
 }
 
@@ -42,6 +46,8 @@ export const ReOn202408WebUploadTemplate: React.FC<
   isError,
   isCompleted,
   accountName,
+  chatHistory,
+  currentChatId,
   onDragOver,
   onDragLeave,
   onDrop,
@@ -49,157 +55,71 @@ export const ReOn202408WebUploadTemplate: React.FC<
   onUpload,
   onErrorClose,
   onCompletedClose,
-  onSidebarToggle,
-  onStartQuestion,
+  onStartNewChat,
+  onSelectChat,
+  onAddData,
   onViewUploadHistory,
 }) => {
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
+
   return (
-    <Flex width="100%" height="100vh" margin="0" padding="0">
-      {/* Sidebar */}
-      <Box
-        width="250px"
-        height="100%"
-        bg="#f8f8f8"
-        display="flex"
-        flexDirection="column"
-      >
-        {/* Sidebar Header */}
-        <Flex
-          width="100%"
-          height="40px"
-          alignItems="center"
-          onClick={onSidebarToggle}
-        >
-          <Image
-            src={resolvePublicPath("./images/Sidebar-icon.png")}
-            width="28px"
-            height="28px"
-            ml="10px"
-            mt="6px"
-          />
-          <Text
-            color="#757575"
-            ml="10px"
-            mt="10px"
-            mb="3px"
-            fontSize="14px"
-            fontWeight="300"
-          >
-            サイドバーを閉じる
-          </Text>
-        </Flex>
-
-        {/* Start Question Button */}
-        <Flex
-          width="100%"
-          mt="49px"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button
-            width="200px"
-            height="50px"
-            borderRadius="42.222px"
-            bg="#e5e5e5"
-            _hover={{ bg: "#d5d5d5" }}
-            onClick={onStartQuestion}
-          >
-            <Text fontSize="16px" fontWeight="600">
-              質問を開始する
-            </Text>
-          </Button>
-        </Flex>
-
-        {/* No Past Questions Text */}
-        <Flex
-          color="#757575"
-          width="210px"
-          height="100%"
-          fontSize="15px"
-          fontWeight="300"
-          ml="20px"
-          flexGrow={1}
-          alignItems="center"
-        >
-          まだ過去の質問がありません
-        </Flex>
-
-        {/* Add Data Button */}
-        <Flex
-          bg="#fc2a45"
-          width="100%"
-          height="80px"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Text color="white" fontSize="16px" fontWeight="600" mr="12px">
-            データを追加する
-          </Text>
-          <Image
-            src={resolvePublicPath("images/upload-icon.png")}
-            width="32px"
-            height="32px"
-          />
-        </Flex>
-      </Box>
-
-      {/* Main Content */}
+    <ReOn202408SidebarLayout
+      chatHistory={chatHistory}
+      currentChatId={currentChatId}
+      onStartNewChat={onStartNewChat}
+      onSelectChat={onSelectChat}
+      onAddData={onAddData}
+    >
       <VStack
         width="100%"
         height="100%"
         flexGrow={1}
         alignItems="center"
         spacing={0}
+        px={isSmallScreen ? "16px" : "0"}
       >
-        {/* Account Name */}
-        <Flex
-          width="100%"
-          height="24px"
-          justifyContent="flex-end"
-          mt="8px"
-          mb="50px"
-        >
-          <Text color="#0f0f0f" fontSize="16px" fontWeight="300" mr="20px">
-            {accountName}
-          </Text>
-        </Flex>
-
         {/* Upload Area */}
         <Box
           bg="#ffe6e6"
           width="100%"
-          maxWidth="806px"
-          height="192px"
+          maxWidth={isSmallScreen ? "100%" : "806px"}
+          height={isSmallScreen ? "auto" : "192px"}
           borderRadius="20px"
           display="flex"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          px="20px"
-          onDragOver={onDragOver}
-          onDragLeave={onDragLeave}
-          onDrop={onDrop}
-          border={isDragging ? "2px dashed #fd2a44" : "none"}
+          px={isSmallScreen ? "16px" : "20px"}
+          py={isSmallScreen ? "24px" : "0"}
+          onDragOver={!isSmallScreen ? onDragOver : undefined}
+          onDragLeave={!isSmallScreen ? onDragLeave : undefined}
+          onDrop={!isSmallScreen ? onDrop : undefined}
+          border={!isSmallScreen && isDragging ? "2px dashed #fd2a44" : "none"}
         >
           <Image
             src={resolvePublicPath("images/upload-icon.png")}
-            width="80px"
-            height="80px"
+            width={isSmallScreen ? "60px" : "80px"}
+            height={isSmallScreen ? "60px" : "80px"}
             mb="20px"
           />
-          <Text fontSize="20px" fontWeight="700" textAlign="center" mb="10px">
+          <Text
+            fontSize={isSmallScreen ? "16px" : "20px"}
+            fontWeight="700"
+            textAlign="center"
+            mb="10px"
+          >
             {file ? (
               `選択されたファイル: ${file.name}`
             ) : (
               <>
-                ファイルをドラッグ&ドロップ{" "}
+                {!isSmallScreen && "ファイルをドラッグ&ドロップ "}
                 <Text
                   as="span"
                   color="#757575"
-                  fontSize="12px"
+                  fontSize={isSmallScreen ? "12px" : "14px"}
                   fontWeight="300"
                 >
-                  または
+                  {!isSmallScreen && "または"}
                 </Text>{" "}
                 <label
                   htmlFor="file-upload"
@@ -217,7 +137,11 @@ export const ReOn202408WebUploadTemplate: React.FC<
               </>
             )}
           </Text>
-          <Text fontSize="14px" fontWeight="400" textAlign="center">
+          <Text
+            fontSize={isSmallScreen ? "12px" : "14px"}
+            fontWeight="400"
+            textAlign="center"
+          >
             （.txt）、CSV、JSON、PDF をサポートしています。
             <br />
             1つあたりの最大サイズは100MBです
@@ -227,13 +151,13 @@ export const ReOn202408WebUploadTemplate: React.FC<
         {/* Add Button */}
         <Button
           bg="#fd2a44"
-          width="200px"
+          width={isSmallScreen ? "100%" : "200px"}
           height="50px"
           borderRadius="42.222px"
           color="white"
           fontSize="16px"
           fontWeight="600"
-          mt="200px"
+          mt={isSmallScreen ? "40px" : "200px"}
           onClick={onUpload}
           isDisabled={!file}
         >
@@ -264,7 +188,7 @@ export const ReOn202408WebUploadTemplate: React.FC<
         isOpen={isError}
         onClose={onErrorClose}
       />
-    </Flex>
+    </ReOn202408SidebarLayout>
   );
 };
 

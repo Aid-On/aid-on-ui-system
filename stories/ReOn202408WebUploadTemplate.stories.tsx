@@ -22,8 +22,8 @@ const meta = {
     onUpload: action("onUpload"),
     onErrorClose: action("onErrorClose"),
     onCompletedClose: action("onCompletedClose"),
-    onSidebarToggle: action("onSidebarToggle"),
-    onStartQuestion: action("onStartQuestion"),
+    // onSidebarToggle: action("onSidebarToggle"),
+    // onStartQuestion: action("onStartQuestion"),
     onViewUploadHistory: action("onViewUploadHistory"),
   },
 } satisfies Meta<typeof ReOn202408WebUploadTemplate>;
@@ -40,6 +40,19 @@ export const PC: Story = {
       viewports: [1350],
     },
   },
+  args: {
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    isDragging: false,
+    file: null,
+    isUploading: false,
+    isError: false,
+    isCompleted: false,
+    onViewUploadHistory: () => {},
+  },
 };
 
 export const Tablet: Story = {
@@ -50,6 +63,14 @@ export const Tablet: Story = {
     chromatic: {
       viewports: [900],
     },
+  },
+  args: {
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    onViewUploadHistory: () => {},
   },
 };
 
@@ -62,34 +83,77 @@ export const Smartphone: Story = {
       viewports: [450],
     },
   },
+  args: {
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    isDragging: false,
+    file: null,
+    isUploading: false,
+    isError: false,
+    isCompleted: false,
+    onViewUploadHistory: () => {},
+  },
 };
 
 export const WithFile: Story = {
   args: {
     file: new File(["test content"], "test.txt", { type: "text/plain" }),
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    onViewUploadHistory: () => {},
   },
 };
 
 export const Dragging: Story = {
   args: {
     isDragging: true,
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    onViewUploadHistory: () => {},
   },
 };
 
 export const Uploading: Story = {
   args: {
     isUploading: true,
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    onViewUploadHistory: () => {},
   },
 };
 
 export const Error: Story = {
   args: {
     isError: true,
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    onViewUploadHistory: () => {},
   },
 };
 
 export const Completed: Story = {
   args: {
     isCompleted: true,
+    chatHistory: [],
+    currentChatId: null,
+    onStartNewChat: () => {},
+    onSelectChat: (chatId: string) => {},
+    onAddData: () => {},
+    onViewUploadHistory: () => {},
   },
 };

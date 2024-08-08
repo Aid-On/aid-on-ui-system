@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   Box,
   Flex,
   Text,
-  Button,
   Input,
   VStack,
   Image,
+  useMediaQuery,
 } from "@chakra-ui/react";
+import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
 
 interface ChatMessage {
   id: string;
@@ -42,7 +43,6 @@ export const ReOn202408WebChatTemplate: React.FC<
   currentChatId,
   messages,
   question,
-  onSidebarToggle,
   onStartNewChat,
   onSelectChat,
   onAddData,
@@ -50,121 +50,40 @@ export const ReOn202408WebChatTemplate: React.FC<
   onQuestionSubmit,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
   return (
-    <Flex width="100%" height="100vh" margin="0" padding="0">
-      {/* Sidebar */}
-      <Box
-        width="250px"
-        height="100%"
-        bg="#f8f8f8"
-        display="flex"
-        flexDirection="column"
-      >
-        {/* Sidebar Header */}
+    <ReOn202408SidebarLayout
+      chatHistory={chatHistory}
+      currentChatId={currentChatId}
+      onStartNewChat={onStartNewChat}
+      onSelectChat={onSelectChat}
+      onAddData={onAddData}
+    >
+      <Flex flexDirection="column" height="100vh" overflow="hidden">
+        {/* Account Name */}
         <Flex
           width="100%"
           height="40px"
+          justifyContent="flex-end"
           alignItems="center"
-          onClick={onSidebarToggle}
+          flexShrink={0}
+          px={4}
         >
-          <Image
-            src="./images/Sidebar-icon.png"
-            width="28px"
-            height="28px"
-            ml="10px"
-            mt="6px"
-          />
-          <Text
-            color="#757575"
-            ml="10px"
-            mt="10px"
-            mb="3px"
-            fontSize="14px"
-            fontWeight="300"
-          >
-            サイドバーを閉じる
-          </Text>
-        </Flex>
-
-        {/* Start New Chat Button */}
-        <Flex
-          width="100%"
-          mt="49px"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button
-            width="200px"
-            height="50px"
-            borderRadius="42.222px"
-            bg="#e5e5e5"
-            _hover={{ bg: "#d5d5d5" }}
-            onClick={onStartNewChat}
-          >
-            <Text fontSize="16px" fontWeight="600">
-              新しいチャットを開始
-            </Text>
-          </Button>
-        </Flex>
-
-        {/* Chat History */}
-        <VStack
-          spacing={2}
-          align="stretch"
-          overflow="auto"
-          flexGrow={1}
-          mt={4}
-          px={2}
-        >
-          {chatHistory.map((chat) => (
-            <Button
-              key={chat.id}
-              onClick={() => onSelectChat(chat.id)}
-              variant="ghost"
-              justifyContent="flex-start"
-              isActive={chat.id === currentChatId}
-              _active={{ bg: "#e5e5e5" }}
-            >
-              {chat.title}
-            </Button>
-          ))}
-        </VStack>
-
-        {/* Add Data Button */}
-        <Flex
-          bg="#fc2a45"
-          width="100%"
-          height="80px"
-          justifyContent="center"
-          alignItems="center"
-          onClick={onAddData}
-        >
-          <Text color="white" fontSize="16px" fontWeight="600" mr="12px">
-            データを追加する
-          </Text>
-          <Image src="./images/upload-icon.png" width="32px" height="32px" />
-        </Flex>
-      </Box>
-
-      {/* Main Content */}
-      <VStack width="100%" height="100%" flexGrow={1}>
-        {/* Account Name */}
-        <Flex width="100%" height="24px" justifyContent="flex-end" mt="8px">
-          <Text color="#0f0f0f" fontSize="16px" fontWeight="300" mr="20px">
+          <Text color="#0f0f0f" fontSize="16px" fontWeight="300">
             {accountName}
           </Text>
         </Flex>
 
-        {/* Chat Messages */}
         <Box
           flexGrow={1}
           width="100%"
-          px={4}
           overflowY="auto"
+          px={4}
           css={{
             "&::-webkit-scrollbar": {
               width: "4px",
@@ -182,7 +101,7 @@ export const ReOn202408WebChatTemplate: React.FC<
             <Flex height="100%" alignItems="center" justifyContent="center">
               <Text
                 color="#757575"
-                fontSize="24px"
+                fontSize={isSmallScreen ? "18px" : "24px"}
                 fontWeight="300"
                 textAlign="center"
               >
@@ -190,7 +109,7 @@ export const ReOn202408WebChatTemplate: React.FC<
               </Text>
             </Flex>
           ) : (
-            <VStack spacing={4} align="stretch">
+            <VStack spacing={4} align="stretch" pt={4} pb={4}>
               {messages.map((message) => (
                 <Box
                   key={message.id}
@@ -198,7 +117,7 @@ export const ReOn202408WebChatTemplate: React.FC<
                   p={3}
                   borderRadius="md"
                   alignSelf={message.isUser ? "flex-end" : "flex-start"}
-                  maxWidth="70%"
+                  maxWidth={isSmallScreen ? "85%" : "70%"}
                   ml={message.isUser ? "auto" : "0"}
                 >
                   <Text>{message.content}</Text>
@@ -214,18 +133,19 @@ export const ReOn202408WebChatTemplate: React.FC<
           bg="#ffe6e6"
           height="60px"
           borderRadius="30px"
-          mx="133px"
+          mx={isSmallScreen ? "16px" : "133px"}
           mb="20px"
           alignItems="center"
-          width="calc(100% - 266px)"
+          width={isSmallScreen ? "calc(100% - 32px)" : "calc(100% - 266px)"}
+          flexShrink={0}
         >
           <Input
             variant="unstyled"
             placeholder="ここに自由に質問できます"
             color="#757575"
-            fontSize="18px"
+            fontSize={isSmallScreen ? "16px" : "18px"}
             fontWeight="300"
-            ml="30px"
+            ml={isSmallScreen ? "20px" : "30px"}
             flexGrow={1}
             value={question}
             onChange={onQuestionChange}
@@ -235,12 +155,12 @@ export const ReOn202408WebChatTemplate: React.FC<
             width="30px"
             height="30px"
             mr="10px"
-            ml="29px"
+            ml={isSmallScreen ? "10px" : "29px"}
             onClick={onQuestionSubmit}
             cursor="pointer"
           />
         </Flex>
-      </VStack>
-    </Flex>
+      </Flex>
+    </ReOn202408SidebarLayout>
   );
 };
