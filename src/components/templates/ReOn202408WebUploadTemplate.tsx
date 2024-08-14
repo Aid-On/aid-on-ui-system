@@ -38,7 +38,7 @@ const FileUploadProgress: React.FC<FileUploadProgressProps> = ({
         value={progress}
         size="sm"
         colorScheme="red"
-        bg="gray.200"
+        bg="gray.50"
         borderRadius="full"
       />
       <Text fontSize="xs" textAlign="right" mt={1}>
@@ -103,6 +103,15 @@ export const ReOn202408WebUploadTemplate: React.FC<
     if (size < 1024 * 1024) return (size / 1024).toFixed(2) + " KB";
     return (size / (1024 * 1024)).toFixed(2) + " MB";
   };
+
+  const helpText = `［プログラム用データ］
+.c / .cs / .cpp / .java / .php / .py / .rb / .js / .sh / .ts
+［構造化用データ］
+.json
+［マークアップ用データ］
+.html / .css / .md
+［ビジネス用データ］
+.doc / .docx / .pptx / .pdf / .txt`;
 
   return (
     <ReOn202408SidebarLayout
@@ -186,11 +195,24 @@ export const ReOn202408WebUploadTemplate: React.FC<
             textAlign="center"
           >
             pdf、csv、ppt、docx、pptx、html などをサポートしています{" "}
-            {
-              <Tooltip label="test">
-                <QuestionOutlineIcon />
-              </Tooltip>
-            }
+            <Tooltip
+              label={helpText}
+              placement="bottom"
+              hasArrow
+              whiteSpace="pre-wrap"
+              bg="#f5f5f5"
+              color="#1e1e1e"
+              p={"20px"}
+              borderRadius="10px"
+              boxShadow="md"
+              sx={{
+                "& .chakra-tooltip__arrow": {
+                  bg: "#f5f5f5",
+                },
+              }}
+            >
+              <QuestionOutlineIcon />
+            </Tooltip>
             <br />
             1つあたりの最大サイズは100MBです
           </Text>
