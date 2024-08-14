@@ -14,10 +14,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # You can adjust this to your project's Node.js version
-
-      - name: Install Yarn
-        run: npm install -g yarn
+          node-version: "18" # Updated to Node.js 18
+          cache: "yarn" # This will cache the Yarn dependencies
 
       - name: Install Dependencies and Build 🔧
         run: |

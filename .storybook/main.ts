@@ -1,5 +1,5 @@
 import type { StorybookConfig } from "@storybook/react-webpack5";
-import path from 'path';
+import path from "path";
 
 const config: StorybookConfig = {
   stories: [
@@ -16,11 +16,11 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
   ],
-  staticDirs: [{ from: '../public', to: '/' }],
+  staticDirs: [{ from: "../public", to: "/" }],
   webpackFinal: async (config) => {
     config.resolve!.alias = {
       ...config.resolve!.alias,
-      '@': path.resolve(__dirname, '../src'),
+      "@": path.resolve(__dirname, "../src"),
     };
     return config;
   },
