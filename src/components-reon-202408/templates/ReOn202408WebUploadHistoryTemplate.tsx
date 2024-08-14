@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Flex,
@@ -6,7 +6,6 @@ import {
   VStack,
   HStack,
   useMediaQuery,
-  Button,
 } from "@chakra-ui/react";
 import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
 
@@ -18,17 +17,12 @@ interface UploadHistoryItem {
   documentTitle: string;
 }
 
-interface ChatHistory {
-  id: string;
-  title: string;
-}
-
 const UploadHistoryItemBox: React.FC<
   UploadHistoryItem & { isSmallScreen: boolean }
 > = ({
   date,
   time,
-  accountName,
+  accountName: account,
   documentDate,
   documentTitle,
   isSmallScreen,
@@ -40,7 +34,7 @@ const UploadHistoryItemBox: React.FC<
     px={isSmallScreen ? "16px" : "0"}
   >
     <Text color="#757575" fontSize="12px" fontWeight="300" lineHeight="18px">
-      投稿日時 {date} {time} by {accountName}
+      投稿日時 {date} {time} by {account}
     </Text>
     <Text
       color="#1E1E1E"
@@ -56,13 +50,11 @@ const UploadHistoryItemBox: React.FC<
 );
 
 interface ReOn202408WebUploadHistoryTemplateProps {
-  chatHistory: ChatHistory[];
+  chatHistory: any[];
   currentChatId: string | null;
-  uploadHistory: UploadHistoryItem[];
   onStartNewChat: () => void;
   onSelectChat: (chatId: string) => void;
   onAddData: () => void;
-  onBack: () => void;
   accountName: string;
 }
 
@@ -71,22 +63,24 @@ export const ReOn202408WebUploadHistoryTemplate: React.FC<
 > = ({
   chatHistory,
   currentChatId,
-  uploadHistory,
-  accountName,
   onStartNewChat,
   onSelectChat,
   onAddData,
-  onBack,
+  accountName,
 }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = uploadHistory.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(uploadHistory.length / itemsPerPage);
+  const historyItems: UploadHistoryItem[] = [
+    {
+      date: "2024/12/23",
+      time: "13:56",
+      accountName: "account name",
+      documentDate: "2024/07/30",
+      documentTitle:
+        "すごいドキュメント2 最新版（部長チェック済み）_2_2（改訂）",
+    },
+    // Add more items as needed
+  ];
 
   return (
     <ReOn202408SidebarLayout
@@ -113,8 +107,6 @@ export const ReOn202408WebUploadHistoryTemplate: React.FC<
             fontSize="16px"
             fontWeight="300"
             ml={isSmallScreen ? "40px" : "20px"}
-            onClick={onBack}
-            cursor="pointer"
           >
             ←
           </Text>
@@ -138,47 +130,15 @@ export const ReOn202408WebUploadHistoryTemplate: React.FC<
           データアップロード履歴
         </Text>
 
-        <VStack
-          spacing={0}
-          align="stretch"
-          maxWidth={isSmallScreen ? "100%" : "806px"}
-          marginLeft={
-            currentItems.length > 0 ? (isSmallScreen ? 0 : "112px") : "0px"
-          }
-        >
-          {currentItems.length > 0 ? (
-            currentItems.map((item, index) => (
-              <UploadHistoryItemBox
-                key={index}
-                {...item}
-                isSmallScreen={isSmallScreen}
-              />
-            ))
-          ) : (
-            <Text textAlign="center" color="#757575">
-              アップロード履歴がありません
-            </Text>
-          )}
+        <VStack spacing={0} align="stretch" pl={isSmallScreen ? "0" : "112px"}>
+          {historyItems.map((item, index) => (
+            <UploadHistoryItemBox
+              key={index}
+              {...item}
+              isSmallScreen={isSmallScreen}
+            />
+          ))}
         </VStack>
-        {totalPages > 1 && (
-          <HStack justifyContent="center" mt="20px">
-            <Button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              isDisabled={currentPage === 1}
-            >
-              前へ
-            </Button>
-            <Text>{`${currentPage} / ${totalPages}`}</Text>
-            <Button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              isDisabled={currentPage === totalPages}
-            >
-              次へ
-            </Button>
-          </HStack>
-        )}
       </Flex>
     </ReOn202408SidebarLayout>
   );

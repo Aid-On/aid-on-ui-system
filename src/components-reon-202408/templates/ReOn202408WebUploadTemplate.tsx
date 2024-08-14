@@ -1,30 +1,19 @@
 import React from "react";
-import { Box, Text, Button, VStack, Image, Link, Input, useMediaQuery, Progress } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Button,
+  VStack,
+  Image,
+  Link,
+  Input,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
 import { ReOn202408WebUploadOverlay } from "../organisms/ReOn202408WebUploadingOverlay";
 import { resolvePublicPath } from "../../resolvePublicPath";
 import { ReOn202408WebUploadErrorOverlay } from "../organisms/ReOn202408WebUploadErrorOverlay";
 import { ReOn202408WebUploadCompletedOverlay } from "../organisms/ReOn202408WebUploadCompletedOverlay";
-
-interface FileUploadProgressProps {
-  fileName: string;
-  fileSize: string;
-  progress: number;
-}
-
-const FileUploadProgress: React.FC<FileUploadProgressProps> = ({ fileName, fileSize, progress }) => {
-  return (
-    <Box width="100%" maxWidth="100%">
-      <Text fontSize="sm" mb={1}>
-        {fileName} ({fileSize})
-      </Text>
-      <Progress value={progress} size="sm" colorScheme="red" bg="gray.200" borderRadius="full" />
-      <Text fontSize="xs" textAlign="right" mt={1}>
-        uploading...{progress}%
-      </Text>
-    </Box>
-  );
-};
 
 interface ReOn202408WebUploadTemplateProps {
   isDragging: boolean;
@@ -32,11 +21,9 @@ interface ReOn202408WebUploadTemplateProps {
   isUploading: boolean;
   isError: boolean;
   isCompleted: boolean;
-  uploadProgress: number;
   accountName: string;
   chatHistory: any[]; // 適切な型に変更してください
   currentChatId: string | null;
-  isSidebarOpen: boolean;
   onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
   onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
   onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -48,16 +35,17 @@ interface ReOn202408WebUploadTemplateProps {
   onSelectChat: (chatId: string) => void;
   onAddData: () => void;
   onViewUploadHistory: () => void;
-  onSidebarToggle: () => void;
 }
 
-export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplateProps> = ({
+export const ReOn202408WebUploadTemplate: React.FC<
+  ReOn202408WebUploadTemplateProps
+> = ({
   isDragging,
   file,
   isUploading,
   isError,
   isCompleted,
-  uploadProgress,
+  accountName,
   chatHistory,
   currentChatId,
   onDragOver,
@@ -74,12 +62,6 @@ export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplatePr
 }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
 
-  const formatFileSize = (size: number) => {
-    if (size < 1024) return size + " B";
-    if (size < 1024 * 1024) return (size / 1024).toFixed(2) + " KB";
-    return (size / (1024 * 1024)).toFixed(2) + " MB";
-  };
-
   return (
     <ReOn202408SidebarLayout
       chatHistory={chatHistory}
@@ -88,7 +70,14 @@ export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplatePr
       onSelectChat={onSelectChat}
       onAddData={onAddData}
     >
-      <VStack width="100%" height="100%" flexGrow={1} alignItems="center" spacing={0} px={isSmallScreen ? "16px" : "0"}>
+      <VStack
+        width="100%"
+        height="100%"
+        flexGrow={1}
+        alignItems="center"
+        spacing={0}
+        px={isSmallScreen ? "16px" : "0"}
+      >
         {/* Upload Area */}
         <Box
           bg="#ffe6e6"
@@ -102,7 +91,6 @@ export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplatePr
           alignItems="center"
           px={isSmallScreen ? "16px" : "20px"}
           py={isSmallScreen ? "24px" : "0"}
-          mt="40px"
           onDragOver={!isSmallScreen ? onDragOver : undefined}
           onDragLeave={!isSmallScreen ? onDragLeave : undefined}
           onDrop={!isSmallScreen ? onDrop : undefined}
@@ -114,16 +102,29 @@ export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplatePr
             height={isSmallScreen ? "60px" : "80px"}
             mb="20px"
           />
-          <Text fontSize={isSmallScreen ? "16px" : "20px"} fontWeight="700" textAlign="center" mb="10px">
+          <Text
+            fontSize={isSmallScreen ? "16px" : "20px"}
+            fontWeight="700"
+            textAlign="center"
+            mb="10px"
+          >
             {file ? (
               `選択されたファイル: ${file.name}`
             ) : (
               <>
                 {!isSmallScreen && "ファイルをドラッグ&ドロップ "}
-                <Text as="span" color="#757575" fontSize={isSmallScreen ? "12px" : "14px"} fontWeight="300">
+                <Text
+                  as="span"
+                  color="#757575"
+                  fontSize={isSmallScreen ? "12px" : "14px"}
+                  fontWeight="300"
+                >
                   {!isSmallScreen && "または"}
                 </Text>{" "}
-                <label htmlFor="file-upload" style={{ cursor: "pointer", textDecoration: "underline" }}>
+                <label
+                  htmlFor="file-upload"
+                  style={{ cursor: "pointer", textDecoration: "underline" }}
+                >
                   ファイルを選択
                 </label>
                 <Input
@@ -136,19 +137,16 @@ export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplatePr
               </>
             )}
           </Text>
-          <Text fontSize={isSmallScreen ? "12px" : "14px"} fontWeight="400" textAlign="center">
+          <Text
+            fontSize={isSmallScreen ? "12px" : "14px"}
+            fontWeight="400"
+            textAlign="center"
+          >
             （.txt）、CSV、JSON、PDF をサポートしています。
             <br />
             1つあたりの最大サイズは100MBです
           </Text>
         </Box>
-
-        {/* FileUploadProgress */}
-        {file && isUploading && (
-          <Box mt={4} width="100%" maxWidth={isSmallScreen ? "100%" : "806px"}>
-            <FileUploadProgress fileName={file.name} fileSize={formatFileSize(file.size)} progress={uploadProgress} />
-          </Box>
-        )}
 
         {/* Add Button */}
         <Button
@@ -161,7 +159,7 @@ export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplatePr
           fontWeight="600"
           mt={isSmallScreen ? "40px" : "200px"}
           onClick={onUpload}
-          isDisabled={!file || isUploading}
+          isDisabled={!file}
         >
           追加する
         </Button>
@@ -182,8 +180,14 @@ export const ReOn202408WebUploadTemplate: React.FC<ReOn202408WebUploadTemplatePr
         </Link>
       </VStack>
       <ReOn202408WebUploadOverlay isOpen={isUploading} />
-      <ReOn202408WebUploadCompletedOverlay isOpen={isCompleted} onClose={onCompletedClose} />
-      <ReOn202408WebUploadErrorOverlay isOpen={isError} onClose={onErrorClose} />
+      <ReOn202408WebUploadCompletedOverlay
+        isOpen={isCompleted}
+        onClose={onCompletedClose}
+      />
+      <ReOn202408WebUploadErrorOverlay
+        isOpen={isError}
+        onClose={onErrorClose}
+      />
     </ReOn202408SidebarLayout>
   );
 };

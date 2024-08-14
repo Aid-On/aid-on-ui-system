@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import { ReOn202408WebSidebar } from "./ReOn202408WebSidebar";
 
@@ -19,12 +19,8 @@ export const ReOn202408SidebarLayout: React.FC<SidebarLayoutProps> = ({
   onSelectChat,
   onAddData,
 }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(isLargerThan768);
-
-  useEffect(() => {
-    setIsSidebarOpen(isLargerThan768);
-  }, [isLargerThan768]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

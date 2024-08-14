@@ -1,7 +1,14 @@
-"use client";
-
 import React, { useRef, useEffect } from "react";
-import { Box, Flex, Text, Input, VStack, Image, useMediaQuery, Button, CircularProgress } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Input,
+  VStack,
+  Image,
+  useMediaQuery,
+  Button,
+} from "@chakra-ui/react";
 import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
 import { resolvePublicPath } from "../../resolvePublicPath";
 
@@ -21,7 +28,10 @@ interface CustomSendButtonProps {
   isDisabled?: boolean;
 }
 
-export const CustomSendButton: React.FC<CustomSendButtonProps> = ({ onQuestionSubmit, isDisabled = false }) => {
+export const CustomSendButton: React.FC<CustomSendButtonProps> = ({
+  onQuestionSubmit,
+  isDisabled = false,
+}) => {
   return (
     <Button
       as="div"
@@ -41,13 +51,14 @@ export const CustomSendButton: React.FC<CustomSendButtonProps> = ({ onQuestionSu
       opacity={isDisabled ? 0.5 : 1}
       transition="all 0.2s"
     >
-      <Image src={resolvePublicPath("images/reon-send-button.png")} alt="送信" boxSize="40px" objectFit="contain" />
+      <Image
+        src={resolvePublicPath("images/reon-send-button.png")}
+        alt="送信"
+        boxSize="40px"
+        objectFit="contain"
+      />
     </Button>
   );
-};
-
-export const CustomProgress = () => {
-  return <CircularProgress isIndeterminate size="36px" thickness="4px" color="red.400" trackColor="gray.100" />;
 };
 
 interface ReOn202408WebChatTemplateProps {
@@ -56,8 +67,6 @@ interface ReOn202408WebChatTemplateProps {
   currentChatId: string | null;
   messages: ChatMessage[];
   question: string;
-  isLoadingMessage: boolean;
-  isSidebarOpen: boolean;
   onSidebarToggle: () => void;
   onStartNewChat: () => void;
   onSelectChat: (chatId: string) => void;
@@ -66,15 +75,14 @@ interface ReOn202408WebChatTemplateProps {
   onQuestionSubmit: () => void;
 }
 
-export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps> = ({
+export const ReOn202408WebChatTemplate: React.FC<
+  ReOn202408WebChatTemplateProps
+> = ({
   accountName,
   chatHistory,
   currentChatId,
   messages,
   question,
-  isLoadingMessage,
-  isSidebarOpen,
-  onSidebarToggle,
   onStartNewChat,
   onSelectChat,
   onAddData,
@@ -88,13 +96,6 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && event.ctrlKey && !isLoadingMessage) {
-      event.preventDefault();
-      onQuestionSubmit();
-    }
-  };
-
   return (
     <ReOn202408SidebarLayout
       chatHistory={chatHistory}
@@ -105,7 +106,14 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
     >
       <Flex flexDirection="column" height="100vh" position="relative">
         {/* Account Name */}
-        <Flex width="100%" height="40px" justifyContent="flex-end" alignItems="center" flexShrink={0} px={4}>
+        <Flex
+          width="100%"
+          height="40px"
+          justifyContent="flex-end"
+          alignItems="center"
+          flexShrink={0}
+          px={4}
+        >
           <Text color="#0f0f0f" fontSize="16px" fontWeight="300">
             {accountName}
           </Text>
@@ -117,7 +125,7 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
           width="100%"
           overflowY="auto"
           px={4}
-          pb="100px"
+          pb="100px" // Add padding to prevent overlap with input area
           css={{
             "&::-webkit-scrollbar": {
               width: "4px",
@@ -133,7 +141,12 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
         >
           {messages.length === 0 ? (
             <Flex height="100%" alignItems="center" justifyContent="center">
-              <Text color="#757575" fontSize={isSmallScreen ? "18px" : "24px"} fontWeight="300" textAlign="center">
+              <Text
+                color="#757575"
+                fontSize={isSmallScreen ? "18px" : "24px"}
+                fontWeight="300"
+                textAlign="center"
+              >
                 まだ何も質問されていません
               </Text>
             </Flex>
@@ -149,21 +162,23 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
                   maxWidth={isSmallScreen ? "85%" : "70%"}
                   ml={message.isUser ? "auto" : "0"}
                 >
-                  <Text whiteSpace="pre-wrap">{message.content}</Text>
+                  <Text>{message.content}</Text>
                 </Box>
               ))}
-              {isLoadingMessage && (
-                <Flex justifyContent="center" mt={4}>
-                  <CustomProgress />
-                </Flex>
-              )}
               <div ref={messagesEndRef} />
             </VStack>
           )}
         </Box>
 
         {/* Input Area */}
-        <Flex position="absolute" bottom={5} left={0} right={0} justifyContent="center" pointerEvents="none">
+        <Flex
+          position="absolute"
+          bottom={5}
+          left={0}
+          right={0}
+          justifyContent="center"
+          pointerEvents="none"
+        >
           <Flex
             bg="#ffe6e6"
             height="60px"
@@ -183,10 +198,17 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
               flexGrow={1}
               value={question}
               onChange={onQuestionChange}
-              onKeyDown={handleKeyPress}
-              isDisabled={isLoadingMessage}
             />
-            <CustomSendButton onQuestionSubmit={onQuestionSubmit} isDisabled={isLoadingMessage} />
+            <CustomSendButton onQuestionSubmit={onQuestionSubmit} />
+            {/* <Box
+              bg="brown"
+              width="30px"
+              height="30px"
+              mr="10px"
+              ml={isSmallScreen ? "10px" : "29px"}
+              onClick={onQuestionSubmit}
+              cursor="pointer"
+            /> */}
           </Flex>
         </Flex>
       </Flex>

@@ -17,6 +17,8 @@ const meta = {
     currentChatId: null,
     messages: [],
     question: "",
+    isLoadingMessage: false,
+    isSidebarOpen: false,
     onSidebarToggle: action("onSidebarToggle"),
     onStartNewChat: action("onStartNewChat"),
     onSelectChat: action("onSelectChat"),
@@ -30,6 +32,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const PC: Story = {
+  args: {},
   parameters: {
     viewport: {
       defaultViewport: "desktop",
@@ -41,6 +44,7 @@ export const PC: Story = {
 };
 
 export const Tablet: Story = {
+  args: {},
   parameters: {
     viewport: {
       defaultViewport: "tablet",
@@ -52,6 +56,7 @@ export const Tablet: Story = {
 };
 
 export const Smartphone: Story = {
+  args: {},
   parameters: {
     viewport: {
       defaultViewport: "mobile1",
