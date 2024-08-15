@@ -42,7 +42,11 @@ export const ReOn202408WebSidebar: React.FC<ReOn202408WebSidebarProps> = ({
       zIndex={1000}
       overflow="hidden"
     >
-      <Flex flexDirection="column" height="100%" bg={isSidebarOpen ? "rgba(248, 248, 248, 0.7)" : "transparent"}>
+      <Flex
+        flexDirection="column"
+        height="100%"
+        bg={isSidebarOpen ? "rgba(248, 248, 248, 0.7)" : "transparent"}
+      >
         {/* Toggle Button */}
         <Flex justifyContent="flex-start" p={2}>
           <Image
@@ -57,7 +61,13 @@ export const ReOn202408WebSidebar: React.FC<ReOn202408WebSidebarProps> = ({
         {isSidebarOpen && (
           <>
             {/* Start Question Button */}
-            <Flex width="100%" mt="20px" mb="30px" justifyContent="center" alignItems="center">
+            <Flex
+              width="100%"
+              mt="20px"
+              mb="30px"
+              justifyContent="center"
+              alignItems="center"
+            >
               <Button
                 width="200px"
                 height="50px"
@@ -73,7 +83,15 @@ export const ReOn202408WebSidebar: React.FC<ReOn202408WebSidebarProps> = ({
             </Flex>
 
             {/* Chat History */}
-            <Box color="#757575" width="100%" fontSize="14px" fontWeight="300" px="20px" flexGrow={1} overflowY="auto">
+            <Box
+              color="#757575"
+              width="100%"
+              fontSize="14px"
+              fontWeight="300"
+              px="20px"
+              flexGrow={1}
+              overflowY="auto"
+            >
               <Text fontSize="12px" fontWeight="700" mb="10px">
                 過去のチャット
               </Text>
@@ -82,7 +100,12 @@ export const ReOn202408WebSidebar: React.FC<ReOn202408WebSidebarProps> = ({
                   まだ過去の質問がありません
                 </Flex>
               ) : (
-                <VStack align="stretch" width="100%" spacing={3} alignItems="flex-start">
+                <VStack
+                  align="stretch"
+                  width="100%"
+                  spacing={3}
+                  alignItems="flex-start"
+                >
                   {chatHistory.map((chat) => (
                     <Text
                       key={chat.id}

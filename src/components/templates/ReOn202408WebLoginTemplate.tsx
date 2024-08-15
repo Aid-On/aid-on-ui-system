@@ -24,6 +24,12 @@ const ReOn202408WebLoginTemplate = () => {
   const buttonWidth = useBreakpointValue({ base: "90%", md: "324px" });
   const buttonHeight = useBreakpointValue({ base: "60px", md: "82px" });
 
+  /**
+   * - トップページ
+   *  - フォントサイズが大きすぎる、中のページとバランスが悪い
+   *   - IDが存在しません、ID / Passwordが全体的にでかすぎる
+   *     - 中のページと合わせて、フォントサイズを調整する
+   */
   return (
     <Box
       minHeight="100vh"

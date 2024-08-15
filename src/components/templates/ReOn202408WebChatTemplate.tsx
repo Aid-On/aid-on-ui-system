@@ -1,7 +1,17 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { Box, Flex, Text, Input, VStack, Image, useMediaQuery, Button, CircularProgress } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Input,
+  VStack,
+  Image,
+  useMediaQuery,
+  Button,
+  CircularProgress,
+} from "@chakra-ui/react";
 import { ReOn202408SidebarLayout } from "../organisms/ReOn202408SidebarLayout";
 import { resolvePublicPath } from "../../resolvePublicPath";
 
@@ -21,7 +31,10 @@ interface CustomSendButtonProps {
   isDisabled?: boolean;
 }
 
-export const CustomSendButton: React.FC<CustomSendButtonProps> = ({ onQuestionSubmit, isDisabled = false }) => {
+export const CustomSendButton: React.FC<CustomSendButtonProps> = ({
+  onQuestionSubmit,
+  isDisabled = false,
+}) => {
   return (
     <Button
       as="div"
@@ -41,13 +54,26 @@ export const CustomSendButton: React.FC<CustomSendButtonProps> = ({ onQuestionSu
       opacity={isDisabled ? 0.5 : 1}
       transition="all 0.2s"
     >
-      <Image src={resolvePublicPath("images/reon-send-button.png")} alt="送信" boxSize="40px" objectFit="contain" />
+      <Image
+        src={resolvePublicPath("images/reon-send-button.png")}
+        alt="送信"
+        boxSize="40px"
+        objectFit="contain"
+      />
     </Button>
   );
 };
 
 export const CustomProgress = () => {
-  return <CircularProgress isIndeterminate size="36px" thickness="4px" color="red.400" trackColor="gray.100" />;
+  return (
+    <CircularProgress
+      isIndeterminate
+      size="36px"
+      thickness="4px"
+      color="red.400"
+      trackColor="gray.100"
+    />
+  );
 };
 
 interface ReOn202408WebChatTemplateProps {
@@ -66,7 +92,9 @@ interface ReOn202408WebChatTemplateProps {
   onQuestionSubmit: () => void;
 }
 
-export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps> = ({
+export const ReOn202408WebChatTemplate: React.FC<
+  ReOn202408WebChatTemplateProps
+> = ({
   accountName,
   chatHistory,
   currentChatId,
@@ -94,7 +122,26 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
       onQuestionSubmit();
     }
   };
-
+  /**
+   * - 初回起動はアップロードを促進するテキストが最初にほしい
+   *   - 入力フォームの送信ボタンがなんか変。レイアウトも少しずれてる
+   *   - 質問と回答の左右マージンを入力フォームに揃える
+   * - 文字もうちょい小さくバランスとってもいいかも
+   * - 初回利用時はアップロードしてない中で使えない
+   *   - テキストとかで表現する（アップロードしてください、など）
+   *   - 行動できてはいけない
+   *   - まだ何も質問されていませんとかにアップロードが必要です、とか制御が必要
+   *   - 入力フィールドは非活性にしておく
+   *      - TODO: UIが出てくる
+   * - 入力フォームの送信ボタンが変
+   *   - 中央に入っててほしいけどへんに潜り込んでる
+   *     - 先に中央に設置は行う
+   *     - 上下マージン見直し
+   * - 複数行はFigmaに合わせること
+   *  - Figmaの表示行数をMAX(6行)とし、以降スクロール可能とする
+   * - メッセージ吹き出しの左右マージンをテキストフィールドの左右マージンを絶対値として合わせる
+   * - 文字自体が全体的に大きすぎる、小さい方向で調整するかもしれない
+   */
   return (
     <ReOn202408SidebarLayout
       chatHistory={chatHistory}
@@ -105,7 +152,14 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
     >
       <Flex flexDirection="column" height="100vh" position="relative">
         {/* Account Name */}
-        <Flex width="100%" height="40px" justifyContent="flex-end" alignItems="center" flexShrink={0} px={4}>
+        <Flex
+          width="100%"
+          height="40px"
+          justifyContent="flex-end"
+          alignItems="center"
+          flexShrink={0}
+          px={4}
+        >
           <Text color="#0f0f0f" fontSize="16px" fontWeight="300">
             {accountName}
           </Text>
@@ -133,7 +187,12 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
         >
           {messages.length === 0 ? (
             <Flex height="100%" alignItems="center" justifyContent="center">
-              <Text color="#757575" fontSize={isSmallScreen ? "18px" : "24px"} fontWeight="300" textAlign="center">
+              <Text
+                color="#757575"
+                fontSize={isSmallScreen ? "18px" : "24px"}
+                fontWeight="300"
+                textAlign="center"
+              >
                 まだ何も質問されていません
               </Text>
             </Flex>
@@ -163,7 +222,14 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
         </Box>
 
         {/* Input Area */}
-        <Flex position="absolute" bottom={5} left={0} right={0} justifyContent="center" pointerEvents="none">
+        <Flex
+          position="absolute"
+          bottom={5}
+          left={0}
+          right={0}
+          justifyContent="center"
+          pointerEvents="none"
+        >
           <Flex
             bg="#ffe6e6"
             height="60px"
@@ -186,7 +252,10 @@ export const ReOn202408WebChatTemplate: React.FC<ReOn202408WebChatTemplateProps>
               onKeyDown={handleKeyPress}
               isDisabled={isLoadingMessage}
             />
-            <CustomSendButton onQuestionSubmit={onQuestionSubmit} isDisabled={isLoadingMessage} />
+            <CustomSendButton
+              onQuestionSubmit={onQuestionSubmit}
+              isDisabled={isLoadingMessage}
+            />
           </Flex>
         </Flex>
       </Flex>

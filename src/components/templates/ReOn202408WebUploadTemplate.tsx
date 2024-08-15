@@ -113,6 +113,17 @@ export const ReOn202408WebUploadTemplate: React.FC<
 ［ビジネス用データ］
 .doc / .docx / .pptx / .pdf / .txt`;
 
+  /**
+   * - 上左右が30pxずつのマージン
+   *   - 横は適当、一旦30pxで良い
+   * - アップロードのファイルの挙動が想定と違う
+   *   - ピンクの中にファイル選択にファイル突っ込んだら
+   * - アップロードインジケータの仕組みはあるが、
+   * TODO:
+   *  - 思ったより大きいのでダイアログっぽくコンパクトにすることを検討したい
+   * - ボタンのホバーをモノクロ非活性にしてる
+   *   - デザインで指定したい
+   */
   return (
     <ReOn202408SidebarLayout
       chatHistory={chatHistory}

@@ -31,7 +31,19 @@ export const ReOn202408SidebarLayout: React.FC<SidebarLayoutProps> = ({
   };
 
   const sidebarWidth = isSidebarOpen ? "250px" : "60px";
-
+  /**
+   * メニューサイドバー
+   * - New Chatしか名前が出てこなくなってる
+   *   - Thread作成前にNew Chatじゃない名前をつける by LLM
+   *   - もしくは日付+連番を表示する by system
+   * - サイドバー開閉に日本語テキストを入れる
+   * - Tooltipで吹き出しから触れる編集機能の追加 (リネーム / 削除)
+   * - サイドバーの開閉アイコンの横に「サイドバーを閉じる」の文言を追加
+   * - サイドバーの選択中のチャットの背景色を目立たせる
+   * - サイドバーのアニメーション
+   *   - 閉じてて開く時はアニメーションがあるが
+   *   - 開いてて閉じる時はアニメーションがない
+   */
   return (
     <Flex width="100%" height="100vh" overflow="hidden">
       <ReOn202408WebSidebar
