@@ -1,6 +1,6 @@
 {
   "name": "aid-on-ui-system",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "UI component library for Aid-On",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
