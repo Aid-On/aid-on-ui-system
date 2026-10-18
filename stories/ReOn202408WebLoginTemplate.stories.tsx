@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import ReOn202408WebLoginTemplate from "../src/components/templates/ReOn202408WebLoginTemplate";
 
 const meta = {

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ReOn202408WebUploadHistoryTemplate } from "../src/components/templates/ReOn202408WebUploadHistoryTemplate";
 
 const meta = {

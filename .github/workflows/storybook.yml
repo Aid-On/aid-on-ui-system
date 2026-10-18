@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18" # Updated to Node.js 18
+          node-version: "22" # Storybook 10 / Vite 7 require Node.js 20.19+ or 22.12+
           cache: "yarn" # This will cache the Yarn dependencies
 
       - name: Install Dependencies and Build 🔧
