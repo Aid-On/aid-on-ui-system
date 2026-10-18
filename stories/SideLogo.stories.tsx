@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react-vite';
 import { SideLogo } from '../src/components/atoms/SideLogo';
 import { Box } from '@chakra-ui/react';
 

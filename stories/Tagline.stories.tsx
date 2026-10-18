@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react-vite';
 import { Tagline, TaglineProps } from '../src/components/atoms/Tagline';
 
 export default {

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AidOnWebsiteTemplate } from '../src/components/templates/AidOnWebsiteTemplate';
 
 const meta = {

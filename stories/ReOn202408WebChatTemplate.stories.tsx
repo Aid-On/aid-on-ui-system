@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ReOn202408WebChatTemplate } from "../src/components/templates/ReOn202408WebChatTemplate";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 
 const meta = {
   title: "Templates/ReOn202408WebChatTemplate",

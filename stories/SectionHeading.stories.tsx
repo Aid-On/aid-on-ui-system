@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react-vite';
 import { SectionHeading } from '../src/components/atoms/SectionHeading';  // パスは実際の場所に合わせて調整してください
 
 export default {
