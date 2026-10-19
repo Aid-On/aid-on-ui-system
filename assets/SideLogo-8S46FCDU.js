@@ -1,0 +1,1 @@
+import{j as i}from"./iframe-Ce85W_Jj.js";import{I as r,r as s}from"./resolvePublicPath-zrzVEvAu.js";const t=o=>i.jsx(r,{src:s("/images/side-logo-aid-on.png"),alt:"Aid-On Side Logo",objectFit:"contain",fontSize:"70px",onError:e=>{console.error("Failed to load logo",e)},...o});t.__docgenInfo={description:"",methods:[],displayName:"SideLogo"};export{t as S};
