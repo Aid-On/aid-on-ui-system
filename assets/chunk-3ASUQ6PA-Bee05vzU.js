@@ -1,0 +1,1 @@
+import{S as t}from"./chunk-NTCQBYKE-DxAUKWUE.js";import{f as o,j as s}from"./iframe-Cxa7d-ux.js";var e=o((a,r)=>s.jsx(t,{align:"center",...a,direction:"row",ref:r}));e.displayName="HStack";export{e as H};
